@@ -32,7 +32,7 @@ This website was built from scratch to pratice and demonstrate understanding of 
 
 ## Demonstration
 
-Website deployed at eeast.github.io/CH3-PasswordGenerator/
+Website deployed at eeast.github.io/CH4-CodeQuiz/
 
 ## License
 
