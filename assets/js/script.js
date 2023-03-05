@@ -5,9 +5,11 @@ var timeEl = $("#timer");
 var boldTextEl = $("#topText");
 var plainTextEl = $("#midText");
 var startBtn = $("#btn-begin");
-var highScoreForm = $("#highScoreForm");
-var userInitials = $("#userInput");
+var highScoreFormEl = $("#highScoreForm");
+var userInitialsEl = $("#userInput");
 var submitScoreBtn = $("#submitScore");
+var highScoreTableEl = $("#highScoreTable");
+var tableDataEl = $("#tableData");
 var buttonsEl = $("#btn-container");
 var resultEl = $("#resultBanner");
 
@@ -38,13 +40,13 @@ var questionCount = 1;
 var qSet;
 var currentQuestion;
 
+
 // Init state
 var initGame = function() {
-    timeRemaining = 90;
+    timeRemaining = 30;
     score = 0;
     questionCount = 1;
-    qSet;
-    currentQuestion;
+    qSet = createQSet();
 }
 
 
@@ -54,17 +56,14 @@ var beginQuiz = function() {
     // Clear elements
     boldTextEl.text("Question " + questionCount);
     startBtn.attr('hidden', true);
-    // Init questions
-    qSet = createQSet();
-    score = 0;
+    // Init questions and game variables
+    initGame();
     // Select question
     currentQuestion = qSet[Math.floor(Math.random() * qSet.length)]
     qSet.splice(qSet.indexOf(currentQuestion),1);
-    console.log(qSet);
-    // Add buttons
+    // Display question/Add buttons
     displayQuestion(currentQuestion);
     // Begin timer
-    timeRemaining = 30;
     var timeInterval = setInterval(function() {
         if (timeRemaining > 0) {
             timeEl.text("Time: " + timeRemaining);
@@ -90,7 +89,6 @@ var checkAnswer = function(event) {
     var q = $(event.target);
     if (q.text() === currentQuestion.correct) {
         score += 10;
-        console.log("Correct answer!");
         resultEl.children("#correct").attr("hidden", false);
         resultEl.children("#incorrect").attr("hidden", true);
         if(qSet.length > 0){
@@ -99,14 +97,12 @@ var checkAnswer = function(event) {
             currentQuestion = qSet[Math.floor(Math.random() * qSet.length)]
             qSet.splice(qSet.indexOf(currentQuestion),1);
             displayQuestion(currentQuestion);
-            console.log(qSet);
         } else {
             endGame();
         }
     } else {
         timeRemaining -= 10;
         score -= 10;
-        console.log("Incorrect.");
         resultEl.children("#incorrect").attr("hidden", false);
         resultEl.children("#correct").attr("hidden", true);
     }
@@ -122,12 +118,21 @@ var endGame = function() {
 
 var submitScore = function(event) {
     event.preventDefault();
-    console.log(userInitials.val())
     var highScoreTable = JSON.parse(localStorage.getItem("highscores"));
     if (highScoreTable !== null) {
-        highScoreTable += "<br>" + userInitials.val() + ": " + score;
+        // add user to highscore table
+        highScoreTable.push({initials: userInitialsEl.val(), highscore: score});
+        // sort table
+        highScoreTable.sort(function(a, b) {
+            return b.highscore - a.highscore;
+        });
+        // limit to 10 entries
+        if (highScoreTable.length > 10) {
+            highScoreTable.length = 10;
+        }
     } else {
-        highScoreTable = userInitials.val() + ": " + score;
+        // create highscore table
+        highScoreTable = [{initials: userInitialsEl.val(), highscore: score}];
     }
     localStorage.setItem("highscores", JSON.stringify(highScoreTable));
     showHighScores();
@@ -139,7 +144,14 @@ var showHighScores = function() {
     boldTextEl.text("High Scores:");
     var highScoreTable = JSON.parse(localStorage.getItem("highscores"));
     if (highScoreTable !== null) {
-        plainTextEl.html(highScoreTable);
+        highScoreTableEl.attr('hidden', false);
+        for (var i = 0; i < highScoreTable.length; i++) {
+            var tableRow = $("<tr>");
+            tableRow.append($("<th>").attr('scope', 'row').text(i + 1));
+            tableRow.append($("<td>").text(highScoreTable[i].initials));
+            tableRow.append($("<td>").text(highScoreTable[i].highscore));
+            tableDataEl.append(tableRow);
+        }
     } else {
         plainTextEl.html("No high scores yet!")
     }
@@ -152,7 +164,7 @@ var loadScorePage = function() {
     highScoreBtn.attr("hidden", true);
     boldTextEl.text("Score: " + score);
     plainTextEl.html("Save your score to the leaderboard!");
-    highScoreForm.attr('hidden', false);
+    highScoreFormEl.attr('hidden', false);
 }
 
 
@@ -162,7 +174,8 @@ var loadDefault = function() {
     boldTextEl.text("Welcome!");
     plainTextEl.html("Try to answer the following code-relate questions within the time limit.<br>Keep in mind that incorrect answers will penalize your score/time by ten seconds!");
     startBtn.attr('hidden', false);
-    highScoreForm.attr('hidden', true);
+    highScoreFormEl.attr('hidden', true);
+    highScoreTableEl.attr('hidden', true);
     buttonsEl.empty()
     resultEl.children().attr('hidden', true);
 }
@@ -173,7 +186,9 @@ var clearDefault = function() {
     plainTextEl.html("");
     timeEl.text("");
     startBtn.attr('hidden', true);
-    highScoreForm.attr('hidden', true);
+    highScoreFormEl.attr('hidden', true);
+    highScoreTableEl.attr('hidden', true);
+    tableDataEl.empty();
     buttonsEl.empty();
     resultEl.children().attr('hidden', true);
 }
