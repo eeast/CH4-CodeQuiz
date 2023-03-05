@@ -7,21 +7,33 @@ This website was built from scratch to pratice and demonstrate understanding of 
 ## User Story
 
 **AS A** coding boot camp student
+
 **I WANT** to take a timed quiz on JavaScript fundamentals that stores high scores
+
 **SO THAT** I can gauge my progress compared to my peers
 
 ## Acceptance Criteria
 
 **GIVEN** I am taking a code quiz
+
 **WHEN** I click the start button
+
 **THEN** a timer starts and I am presented with a question
+
 **WHEN** I answer a question
+
 **THEN** I am presented with another question
+
 **WHEN** I answer a question incorrectly
+
 **THEN** time is subtracted from the clock
+
 **WHEN** all questions are answered or the timer reaches 0
+
 **THEN** the game is over
+
 **WHEN** the game is over
+
 **THEN** I can save my initials and score
 
 ## Challenge Directives
@@ -33,6 +45,10 @@ This website was built from scratch to pratice and demonstrate understanding of 
 ## Demonstration
 
 Website deployed at eeast.github.io/CH4-CodeQuiz/
+
+![1678037708548](image/README/1678037708548.png)![1678037781832](image/README/1678037781832.png)![1678037752180](image/README/1678037752180.png)
+
+![1678037727762](image/README/1678037727762.png)
 
 ## License
 
