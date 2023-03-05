@@ -28,12 +28,22 @@
                     <div class="card text-center">
                         <h2 class="card-header">Coding Challenge Quiz</h2>
                         <div class="card-body">
-                            <h3 id="topText" class="card-title">Welcome!</h3>
-                            <p id="midText" class="card-text">Try to answer the following code-relate questions within the time limit.<br>Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
+                            <h3 id="topText" class="card-title"></h3>
+                            <p id="midText" class="card-text"></p>
                             <button class="btn btn-primary" id="btn-begin">Begin Quiz</button>
-                            <div class="row justify-content-center" id="btn-container">
-                                <p id="botText" class="col-2 card-text p-2 m-3 text-light bg-danger rounded"></p>
+                            <form id="highScoreForm">
+                                <div class="form-group">
+                                    <label for="userInitials">Enter your initials here:</label>
+                                    <input type="text" class="form-control" id="userInput" aria-describedby="userInitials" placeholder="Enter initials">
+                                </div>
+                                <button type="submit" class="btn btn-secondary" id="submitScore">Submit</button>
+                            </form>
+                            <div id="btn-container" class="row justify-content-center"></div>
+                            <div id="resultBanner" class="row justify-content-center">
+                                <p id="incorrect" class="col-2 card-text p-2 m-3 text-light bg-danger rounded">Incorrect!</p>
+                                <p id="correct" class="col-2 card-text p-2 m-3 text-light bg-success rounded">Correct!</p>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
