@@ -13,26 +13,6 @@ var tableDataEl = $("#tableData");
 var buttonsEl = $("#btn-container");
 var resultEl = $("#resultBanner");
 
-var createQSet = function() {
-    return [{
-        question: "What is the right answer?",
-        answers: ["A", "B", "C", "D"],
-        correct: "C"
-    }, {
-        question: "Now, what is the right answer?",
-        answers: ["A", "B", "C", "D"],
-        correct: "C"
-    }, {
-        question: "How about now, what's the answer?",
-        answers: ["A", "B", "C", "D"],
-        correct: "C"
-    }, {
-        question: "This is a true/false question.",
-        answers: ["True", "False",],
-        correct: "True"
-    }];
-}
-
 
 var timeRemaining = 90;
 var score = 0;
@@ -54,6 +34,7 @@ var initGame = function() {
 // Game function
 var beginQuiz = function() {
     // Clear elements
+    clearDefault();
     boldTextEl.text("Question " + questionCount);
     startBtn.attr('hidden', true);
     // Init questions and game variables
@@ -135,6 +116,7 @@ var submitScore = function(event) {
         highScoreTable = [{initials: userInitialsEl.val(), highscore: score}];
     }
     localStorage.setItem("highscores", JSON.stringify(highScoreTable));
+    userInitialsEl.val('');
     showHighScores();
 }
 
@@ -172,7 +154,7 @@ var loadDefault = function() {
     highScoreBtn.attr("hidden", false);
     timeEl.text("");
     boldTextEl.text("Welcome!");
-    plainTextEl.html("Try to answer the following code-relate questions within the time limit.<br>Keep in mind that incorrect answers will penalize your score/time by ten seconds!");
+    plainTextEl.html("Try to answer the following code-related questions within the time limit.<br>Keep in mind that incorrect answers will penalize your score/time by ten seconds!");
     startBtn.attr('hidden', false);
     highScoreFormEl.attr('hidden', true);
     highScoreTableEl.attr('hidden', true);
@@ -182,6 +164,7 @@ var loadDefault = function() {
 
 
 var clearDefault = function() {
+    highScoreBtn.attr('hidden', true);
     boldTextEl.text("");
     plainTextEl.html("");
     timeEl.text("");
